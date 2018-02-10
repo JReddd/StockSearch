@@ -1,7 +1,7 @@
 # Stock Search
 
 ## Response web application using Alpha Vantage & Facebook Mashup
------
+
 ### Stock Market Search
 ![images](https://github.com/Jitong-Liu/StockSearch/blob/master/images/Screen%20Shot%202018-02-09%20at%2020.39.46.png)
 -----
