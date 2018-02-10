@@ -1,0 +1,165 @@
+html{
+	background-image: url(http://cs-server.usc.edu:45678/hw/hw8/images/background.png);
+	background-size: cover;
+}
+body {
+	background-image: url(http://cs-server.usc.edu:45678/hw/hw8/images/background.png);
+	background-repeat: repeat;
+}
+.whiteBackground{
+	position: relative;index.html
+	border-radius: 10px;
+	background: white;
+	padding: 15px 15px 30px 15px;
+	margin: 15px 0;
+}
+ #whiteBackground1.ng-hide-remove, #whiteBackground2.ng-hide-remove{
+	position: absolute;
+	transition: 0.5s all linear;
+	-webkit-transition: 0.5s all linear;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	right: 0;
+}
+#whiteBackground1.ng-hide-remove, #whiteBackground1.ng-hide-add.ng-hide-add-active{
+	transform: translateX(100%);
+}
+#whiteBackground1.ng-hide-add, #whiteBackground1.ng-hide-remove.ng-hide-remove-active{
+	transform: translateX(0%);
+}
+#whiteBackground2.ng-hide-remove, #whiteBackground2.ng-hide-add.ng-hide-add-active{
+	transform: translateX(-100%);
+}
+#whiteBackground2.ng-hide-add, #whiteBackground2.ng-hide-remove.ng-hide-remove-active{
+	transform: translateX(0%);
+}
+thead tr:nth-child(odd) {
+	background-color: #f5f5f5;
+}
+tbody tr:nth-child(even) {
+	background-color: #f5f5f5;
+}
+#stockDetailTable tr:nth-child(odd) {
+	background-color: #f5f5f5;
+}
+#stockDetailTable tr:nth-child(even) {
+	background-color: white;
+}
+#stockDetailTable th {
+	padding: 15px;
+}
+#btn-nb4,#btn-nb5,#btn-nb6,#btn-nb7,#btn-nb8,#btn-nb9,#btn-nb10,#btn-nb11,#btn-nb12{
+	border: none;
+	background: none;
+	color:rgb(67,122,178);
+}
+
+#btn-nb4:hover,#btn-nb5:hover,#btn-nb6:hover,#btn-nb7:hover,#btn-nb8:hover,#btn-nb9:hover,#btn-nb10:hover,#btn-nb11:hover,#btn-nb12:hover{
+	background-color: #f5f5f5;
+}
+#btn-nb4:focus,#btn-nb5:focus,#btn-nb6:focus,#btn-nb7:focus,#btn-nb8:focus,#btn-nb9:focus,#btn-nb10:focus,#btn-nb11:focus,#btn-nb12:focus{
+	color: black;
+	outline:none;
+	border-top-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-color: #DCDCDC;
+    border-width:1px;
+}
+#star{
+	margin: 5px 5px 10px 5px;
+}
+.btn{
+	margin:5px;
+}
+.panel-default .nav-tabs > li > a,
+.panel-default .nav-tabs > li > a:hover,
+.panel-default .nav-tabs > li > a:focus {
+    color: rgb(67,122,178);
+
+}
+.panel-default .nav-tabs > .open > a,
+.panel-default .nav-tabs > .open > a:hover,
+.panel-default .nav-tabs > .open > a:focus,
+.panel-default .nav-tabs > li > a:hover,
+.panel-default .nav-tabs > li > a:focus {
+	color: rgb(67,122,178);	
+}
+.panel-default .nav-tabs > li.active > a,
+.panel-default .nav-tabs > li.active > a:hover,
+.panel-default .nav-tabs > li.active > a:focus {
+	color: white;
+	background-color: rgb(67,122,178);
+}
+#threeBT{
+	border-bottom:none;
+}
+.changeFavP{
+	color: green;
+}
+.changeFavN{
+	color: red;
+}
+#sel1, #sel2{
+	height:33px;
+	margin-bottom: 10px;
+	width:80%;
+}
+select:enabled {
+	background: white;
+}
+#stockDetailTable{
+	margin-top: 15px;
+}
+.progress{
+	margin-top: 30px;
+}
+#stockDetailTableBar{
+	margin-top: 77px;
+}
+#fbPost{
+	padding-right: 9px;
+	padding-left: 9px;
+	padding-bottom: 5px;
+}
+.glyphicon-star{
+	color:orange;
+}
+#quote{
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+}
+#quote.ng-valid:focus{
+	border: 2px solid lightblue !important;
+}
+#quote.ng-valid{
+	border: 1px solid #cccccc !important;
+}
+#quote.ng-touched{
+	border: 2px solid red;
+}
+#quote.ng-untouched{
+	border: 1px solid #cccccc !important;
+}
+.md-whiteframe-z1 {
+	box-shadow: none !important;
+}
+md-autocomplete button{
+	width: 0 !important;
+	height: 0 !important;
+	margin: 0 !important;
+}
+md-icon{
+	visibility: hidden;
+}
+md-progress-linear{
+	visibility: hidden;
+}
+#getQuote{
+    margin-left: 0;
+    margin-top: 10px;
+}
+#favTitle{
+    padding-top:8px;
+}

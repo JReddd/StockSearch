@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>hw8</title>
+	<link rel="stylesheet" href="css/layout.css" type="text/css">
+	<script src="//code.angularjs.org/1.5.0/angular.js"></script>
+    <script src="//code.angularjs.org/1.5.0/angular-aria.js"></script>
+    <script src="//code.angularjs.org/1.5.0/angular-animate.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.5/angular-material.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.5/angular-material.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<link href="dist/angular-bootstrap-toggle.min.css" rel="stylesheet"/>
+	<script src="dist/angular-bootstrap-toggle.min.js" type="text/javascript"></script>
+	<script src="https://code.highcharts.com/stock/highstock.js"></script>
+	<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+	<script type="text/javascript" src="anjular/script.js"></script>
+	
+</head>
+<body ng-app="myapp">
+<script>
+	  window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '144869719491744',
+	      xfbml      : true,
+	      version    : 'v2.11'
+	    });
+	    FB.AppEvents.logPageView();
+	  };
+
+	  (function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "https://connect.facebook.net/en_US/sdk.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="container" >
+	<div class="whiteBackground">
+		<h4><center>Stock Market Search</center></h4>
+		<form id="quoteForm" name="myForm" novalidate>
+			<div class="row" ng-controller = "autocompleteController as ctrl">
+				<div class="col-xs-9 col-md-3">
+					<label for="stock_symbol">Enter Stock Ticker Symbol:<span style="color:red">*</span></label>
+				</div>
+				<div class="col-xs-9 col-md-6">
+					<!-- <input type="text" class="form-control" id="stock_symbol" placeholder="e.g. AAPL"> -->		
+
+						<md-autocomplete
+						flex required 
+						md-selected-item="ctrl.selectedItem"
+						md-search-text="ctrl.searchText"
+						md-items="item in ctrl.querySearch(ctrl.searchText)"
+						md-item-text="item.Symbol"
+						md-delay="100"
+						placeholder="e.g. AAPL"
+						md-clear-button="false"
+						md-dropdown-items="5"
+						md-input-id="quote"
+						md-input-name="myName">
+						<div layout="row" class="item" layout-align="start center">
+							<span md-highlight-text="ctrl.searchText">{{item.Symbol}}</span>
+							&nbsp-&nbsp 
+							<span md-highlight-text="ctrl.searchText">{{item.Name}}</span>
+							(
+							<span md-highlight-text="ctrl.searchText">{{item.Exchange}}</span>
+							)
+						</div>
+						</md-autocomplete>
+						<span ng-show="myForm.myName.$touched && myForm.myName.$invalid">Please enter a stock ticker symbol.</span>					
+					
+				</div>
+				<div class="col-xs-9 col-md-3">
+					<button class="btn btn-primary" id="getQuote" ng-disabled="myForm.myName.$invalid"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Get Quote</button>
+					<button class="btn btn-default" id="clear" ng-click="clear()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Clear</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="whiteBackground" id="slidingDiv" ng-controller="MainCtrl">
+		<div class="panel panel-default" id="whiteBackground1" ng-hide="showme">
+			<div class="panel-heading">
+				<h3 class="panel-title pull-left" id="favTitle">Favorite List</h3>
+				<div class="panel-title pull-right"><span class="hidden-xs">Automatic Refresh: </span><toggle  ng-model="autoRef" ng-change="autoRefresh()"></toggle>&nbsp<button id="refreshBt" class="btn btn-default" ng-click="refresh()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"  ></span></button><button id="right" class="btn btn-default" ng-click="showme=true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button></div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="panel-body" style="background: white">
+				<div class="row">
+					<form>
+					    <div class="form-group">
+					    	<div class="col-xs-8 col-md-1">
+					     		<label for="sel1"> Sort By </label>
+					     	</div>
+					     	<div class="col-xs-8 col-md-3">
+						      	<select id="sel1" ng-model="selected1" ng-change="switchSort1()">
+							        <option value="">Default</option>
+							        <option value="symbol">Symbol</option>
+							        <option value="price">Price</option>
+							        <option value="change">Change</option>
+							        <option value="changePercent">Change Percent</option>
+							        <option value="volume">Volume</option>
+						      	</select>
+					      	</div>
+					  	</div>
+					</form>
+					<form>
+					    <div class="form-group">
+					    	<div class="col-xs-8 col-md-1">
+					     		<label for="sel2"> Order </label>
+					      	</div>
+					      	<div class="col-xs-8 col-md-3">
+						      	<select id="sel2" ng-model="selected2" ng-change="switchSort2()" ng-disabled="disabled">
+							        <option value="">Ascending</option>
+							        <option value="des">Descending</option>
+						      	</select>
+					      	</div>
+					  	</div>
+					</form>
+				</div>
+                <div class="table-responsive">
+				    <table class="table" >
+					<thead>
+						<tr>
+							<th>Symbol</th>
+							<th>Stock Price</th>
+							<th>Change (Change Percent)</th>
+							<th>Volume</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="tableFav" >
+						<tr ng-repeat="company in companies|orderBy:orderByField:reverseSort" >
+							<td class="symbolFav"><a href="#">{{ company.symbol }}</a></td>
+							<td>{{ company.lastPrice }}</td>
+							<td class="changeFav">{{ company.change }} ({{ company.changePercent }}) </td>
+							<td>{{ company.volume }}</td>
+							<td>
+								<button ng-click="deleteCompany(company)" class='btn btn-default deleteRow'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+                </div>
+			</div>	
+		</div>
+		<div class="panel panel-default" id="whiteBackground2" ng-show="showme">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-4 col-lg-4"><button class="btn btn-default" ng-click="showme=false" id="left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>
+					<h3 class="panel-title text-center col-xs-5 col-lg-4">Stock Details</h3>
+				</div>
+			</div>
+			<div class="panel-body" style="background: white">
+				<ul class="nav nav-tabs" id="threeBT">
+                    <li class="active" ><a data-toggle="tab" href="#currentStock" ><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> <span><span class="hidden-xs">Current</span> Stock</span></a></li>
+                    <li><a data-toggle="tab" href="#historicalCharts"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> <span><span class="hidden-xs">Historical</span> Charts</span></a></li>
+                    <li><a data-toggle="tab" href="#newsFeeds"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <span>News<span class="hidden-xs"> Feeds</span></span></a></li>
+				</ul>
+				<hr>
+				<div class="tab-content">
+					<div id="currentStock" class="row tab-pane active">
+							<div id='table' class='col-xs col-lg-6'>
+								<b class='pull-left'>Stock Details</b>
+
+								<button class="btn btn-default pull-right" id="fbPost"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/facebook.png" width='20' height='20'></button>
+
+								<button type="button" class='btn btn-default pull-right' id='star' ng-model="favToggle" ng-click="addCompany()"><span id="starBt" class="glyphicon glyphicon-star-empty" aria-hidden='true'></span></button>
+								
+								<div class="clearfix"></div>
+								<table class='table' id="stockDetailTable">
+									<tr>
+										<th>Stock Ticker Symbol</th>
+										<td id='symbolTable'></td>
+									</tr>
+									<tr>
+										<th>Last Price</th>
+										<td id='lpTable'></td>
+									</tr>
+									<tr>
+										<th>Change (Change Percent)</th>
+										<td id='changeTable'></td>
+									</tr>
+									<tr>
+										<th>Timestamp</th>
+										<td id='timeTable'></td>
+									</tr>
+									<tr>
+										<th>Open</th>
+										<td id='openTable'></td>
+									</tr>
+									<tr>
+										<th>Previous Close</th>
+										<td id='closeTable'></td>
+									</tr>
+									<tr>
+										<th>Day's Range</th>
+										<td id='rangeTable'></td>
+									</tr>
+									<tr>
+										<th>Volume</th>
+										<td id='volumeTable'></td>
+									</tr>
+								</table>
+								<div id="stockDetailTableErr"></div>
+								<div id="stockDetailTableBar" class="progress">
+									<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+								</div>
+							</div>
+							<div class='col-xs col-lg-6'>
+								<div  role='group' aria-label='chartsBtn'>
+								  <button type='button' class='btn btn-default' id='btn-nb4' autofocus='autofocus'>Price</button>
+								  <button type='button' class='btn btn-default' id='btn-nb5'>SMA</button>
+								  <button type='button' class='btn btn-default' id='btn-nb6'>EMA</button>
+								  <button type='button' class='btn btn-default' id='btn-nb7'>STOCH</button>
+								  <button type='button' class='btn btn-default' id='btn-nb8'>RSI</button>
+								  <button type='button' class='btn btn-default' id='btn-nb9'>ADX</button>
+								  <button type='button' class='btn btn-default' id='btn-nb10'>CCI</button>
+								  <button type='button' class='btn btn-default' id='btn-nb11'>BBANDS</button>
+								  <button type='button' class='btn btn-default' id='btn-nb12'>MACD</button>
+								  <hr>
+								</div>
+								<div id="priceBT">
+									<div id='charts'></div>
+									<div class="progress" id="chartsProgress"><div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div></div>
+									<div id="chartsErr"></div>
+								</div>
+								<div id="SMABT">
+									<div id='chartsSMA'></div>
+									<div id="chartsSMAProgress" class="progress"><div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div></div>
+									<div id="chartsErrSMA"></div>
+								</div>
+								<div id="EMABT">
+									<div id='chartsEMA'></div>
+									<div id="chartsEMAProgress" class="progress"><div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div></div>
+									<div id="chartsErrEMA"></div>
+								</div>
+								<div id="STOCHBT">
+									<div id='chartsSTOCH'></div>
+									<div id="chartsSTOCHProgress" class="progress"><div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div></div>
+									<div id="chartsErrSTOCH"></div>
+								</div>
+								<div id="RSIBT"> 
+									<div id='chartsRSI'></div>
+									<div id="chartsRSIProgress" class="progress"><div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div></div>
+									<div id="chartsErrRSI"></div>
+								</div>
+								<div id="ADXBT">
+									<div id='chartsADX'></div>
+									<div id="chartsADXProgress" class="progress">
+										<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+									</div>
+									<div id="chartsErrADX"></div>
+								</div>
+								<div id="CCIBT">
+									<div id='chartsCCI'></div>
+									<div  id="chartsCCIProgress" class="progress">
+										<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+									</div>
+									<div id="chartsErrCCI"></div>
+								</div>
+								<div id="BBANDSBT">
+									<div id='chartsBBANDS'></div>
+									<div  id="chartsBBANDSProgress" class="progress">
+										<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+									</div>
+									<div id="chartsErrBBANDS"></div>
+								</div>
+								<div id="MACDBT">
+									<div id='chartsMACD'></div>
+									<div id="chartsMACDProgress" class="progress">
+										<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+									</div>
+									<div id="chartsErrMACD"></div>
+								</div>
+							</div>
+					</div>
+					<div id="historicalCharts" class="tab-pane">
+						<div id="historicalChartsCon"></div>
+						<div id="historicalChartsErr"></div>
+						<div id="historicalProgress" class="progress">
+							<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+						</div>
+					</div>
+					<div id="newsFeeds" class="tab-pane">
+						<div id="newsFeedsContent">
+							<div class="well well-lg" >
+								<a id="newsLink1" href="" target="_blank"><h4 id="newsTitle1">Title</h4></a>
+								<br>
+								<b>Author: </b><b id="newsAuthor1"></b>
+								<br>
+								<b>Date: </b><b id="newsDate1"></b>
+							</div>
+							<div class="well well-lg" >
+								<a id="newsLink2" href="" target="_blank"><h4 id="newsTitle2">Title</h4></a>
+								<br>
+								<b>Author: </b><b id="newsAuthor2"></b>
+								<br>
+								<b>Date: </b><b id="newsDate2"></b>
+							</div>
+							<div class="well well-lg" >
+								<a id="newsLink3" href="" target="_blank"><h4 id="newsTitle3">Title</h4></a>
+								<br>
+								<b>Author: </b><b id="newsAuthor3"></b>
+								<br>
+								<b>Date: </b><b id="newsDate3"></b>
+							</div>
+							<div class="well well-lg" >
+								<a id="newsLink4" href="" target="_blank"><h4 id="newsTitle4">Title</h4></a>
+								<br>
+								<b>Author: </b><b id="newsAuthor4"></b>
+								<br>
+								<b>Date: </b><b id="newsDate4"></b>
+							</div>
+							<div class="well well-lg" >
+								<a id="newsLink5" href="" target="_blank"><h4 id="newsTitle5">Title</h4></a>
+								<br>
+								<b>Author: </b><b id="newsAuthor5"></b>
+								<br>
+								<b>Date: </b><b id="newsDate5"></b>
+							</div>
+						</div>
+						<div id="newsFeedsErr"></div>
+						<div id="newsFeedsProgress" class="progress">
+							<div class='progress-bar progress-bar-striped active' role='progressbar' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100' style='width: 50%'></div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript" src="script.js"></script>
+
+</body>
+
+</html>
