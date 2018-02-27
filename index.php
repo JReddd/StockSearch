@@ -2,9 +2,6 @@
 	header('Access-Control-Allow-Origin: *');
 	date_default_timezone_set('America/New_York'); 
 
-		echo json_encode($twitter);
-	}
-
 	//AutoComplete
 	if(isset($_GET['input'])){
 		$urlAuto = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input=".$_GET["input"];
