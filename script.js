@@ -112,10 +112,10 @@ $(function(){
 
 	        if ($("#tableFav tr:last-child .changeFav").html().charAt(0) == "-"){
 				$("#tableFav tr:last-child .changeFav").addClass("changeFavN");
-				$("#tableFav tr:last-child .changeFav").append("<img src='http://cs-server.usc.edu:45678/hw/hw6/images/Red_Arrow_Down.png' width='15' height='15'>");
+				$("#tableFav tr:last-child .changeFav").append("<img src='/hw8Images/Down.png' width='15' height='15'>");
 			} else {
 				$("#tableFav tr:last-child .changeFav").addClass("changeFavP");
-				$("#tableFav tr:last-child .changeFav").append("<img src='http://cs-server.usc.edu:45678/hw/hw6/images/Green_Arrow_Up.png' width='15' height='15'>");
+				$("#tableFav tr:last-child .changeFav").append("<img src='/hw8Images/Up.png' width='15' height='15'>");
 			}
 		
 			//symbol in favorite list is clicked 	
@@ -170,10 +170,10 @@ $(function(){
 	$(".changeFav").each(function(){
 		if ((this.textContent).charAt(0) == "-"){
 			$(this).addClass("changeFavN");
-			$(this).append("<img src='http://cs-server.usc.edu:45678/hw/hw6/images/Red_Arrow_Down.png' width='15' height='15'>");
+			$(this).append("<img src='/hw8Images/Down.png' width='15' height='15'>");
 		} else {
 			$(this).addClass("changeFavP");
-			$(this).append("<img src='http://cs-server.usc.edu:45678/hw/hw6/images/Green_Arrow_Up.png' width='15' height='15'>");
+			$(this).append("<img src='/hw8Images/Up.png' width='15' height='15'>");
 		}
 	});
 	
@@ -306,7 +306,7 @@ $(function(){
 
 		 	},
 
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'stock_symbolTable': quote
@@ -333,10 +333,10 @@ $(function(){
 				$("#lpTable").html(lastPrice);
 
 				if(change > 0){
-					$("#changeTable").html(change + ' (' + changePercent + ')' + "<img src='http://cs-server.usc.edu:45678/hw/hw6/images/Green_Arrow_Up.png' width='15' height='15'>");
+					$("#changeTable").html(change + ' (' + changePercent + ')' + "<img src='/hw8Images/Up.png' width='15' height='15'>");
 					$("#changeTable").css('color','green');
 				} else if(change < 0) {
-					$("#changeTable").html(change + ' (' + changePercent + ')' + "<img src='http://cs-server.usc.edu:45678/hw/hw6/images/Red_Arrow_Down.png' width='15' height='15'>");
+					$("#changeTable").html(change + ' (' + changePercent + ')' + "<img src='/hw8Images/Down.png' width='15' height='15'>");
 					$("#changeTable").css('color','red');
 				} else {
 					$("#changeTable").html("0.00 (0.00%)");
@@ -387,7 +387,7 @@ $(function(){
 				$("#chartsErr").hide();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'price': quote
@@ -479,7 +479,7 @@ $(function(){
 				$("#chartsSMAProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'SMA': quote
@@ -565,7 +565,7 @@ $(function(){
 				$("#chartsEMAProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'EMA': quote
@@ -651,7 +651,7 @@ $(function(){
 				$("#chartsSTOCHProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'STOCH': quote
@@ -739,7 +739,7 @@ $(function(){
 				$("#chartsRSIProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'RSI': quote
@@ -826,7 +826,7 @@ $(function(){
 				$("#chartsADXProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'ADX': quote
@@ -912,7 +912,7 @@ $(function(){
 				$("#chartsCCIProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'CCI': quote
@@ -1001,7 +1001,7 @@ $(function(){
 				$("#chartsBBANDSProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'BBANDS': quote
@@ -1094,7 +1094,7 @@ $(function(){
 				$("#chartsMACDProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'MACD': quote
@@ -1182,7 +1182,7 @@ $(function(){
 				$("#historicalProgress").show();
 
 			},
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'hisChart': quote
@@ -1340,7 +1340,7 @@ $(function(){
 
 			},
 
-			url : 'http://stocksearch-env.us-west-1.elasticbeanstalk.com/',
+			url : 'http://cs-server.usc.edu:37394/hw8_backend/index.php',
 			type : 'GET',
 			data : {
 				'news': quote

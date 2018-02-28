@@ -1,9 +1,9 @@
 html{
-	background-image: url(http://cs-server.usc.edu:45678/hw/hw8/images/background.png);
+	background-image: url('../hw8Images/background_1.png');
 	background-size: cover;
 }
 body {
-	background-image: url(http://cs-server.usc.edu:45678/hw/hw8/images/background.png);
+	background-image: url('../hw8Images/background_1.png');
 	background-repeat: repeat;
 }
 .whiteBackground{
